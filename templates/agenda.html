@@ -7,10 +7,24 @@
     <ul>
         {% for evento in eventos %}
             {% if evento.local == Null %}
-                <li>{{ evento.título }} - {{ evento.get_data_evento }}</li>
+                <li>{{ evento.título }} - {{ evento.get_data_evento }}
+                    <a href="evento/?id={{ evento.id }}">
+                        <button type="button">Editar</button>
+                    </a>
+                    <a href="evento/delete/{{ evento.id }}/">
+                        <button type="button">Excluir</button>
+                    </a>
+                </li>
             {% endif %}
             {% if evento.local != Null %}
-                <li>{{ evento.título }} - {{ evento.get_data_evento }} - {{evento.local}}</li>
+                <li>{{ evento.título }} - {{ evento.get_data_evento }} - {{evento.local}}
+                    <a href="evento/?id={{ evento.id}}">
+                        <button type="button">Editar</button>
+                    </a>
+                    <a href="evento/delete/{{ evento.id }}/">
+                        <button type="button">Excluir</button>
+                    </a>
+                </li>
             {% endif %}
         {% endfor %}
     </ul>

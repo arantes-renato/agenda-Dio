@@ -5,26 +5,26 @@
 <h2>Evento</h2>
 <form action="submit" method="POST">{% csrf_token %}
     <label>Título:</label>
+    <input type="number" name="id_evento" value="{{ evento.id }}" hidden>
     <br>
-    <input type="text" name="título" size="11">
+    <input type="text" name="título" size="11" value="{{ evento.título }}">
     <br>
     <label>Data do evento:</label>
     <br>
-    <input type="date" name="data_evento">
+    <input type="date" name="data_evento" value="{{ evento.get_data_input_evento }}">
     <br>
     <label>Local do evento:</label>
     <br>
-    <input type="text" name="local" size="11">
+    <input type="text" name="local" size="11" value="{{ evento.local }}">
     <br>
     <label>Descrição:</label>
     <br>
-    <textarea name="descrição" rows="5" cols="13"></textarea>
+    <textarea name="descrição" rows="5" cols="13">{{ evento.descrição }}</textarea>
     <br><br>
     <button type="submit">Salvar</button>
     <a href="/">
         <button type="button">Cancelar</button>
     </a>
 </form>
-
 
 {% endblock %}

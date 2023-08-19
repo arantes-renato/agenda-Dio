@@ -35,7 +35,11 @@ def lista_eventos(request):
 
 @login_required(login_url='/login/')
 def evento(request):
-    return render(request,'evento.html')
+    id_evento = request.GET.get('id')
+    dados = {}
+    if id_evento:
+        dados['evento'] = Evento.objects.get(id=id_evento)
+    return render(request,'evento.html', dados)
 
 @login_required(login_url='/login/')
 def submit_evento(request):
@@ -45,9 +49,31 @@ def submit_evento(request):
         descrição = request.POST.get('descrição')
         local = request.POST.get('local')
         usuário = request.user
-        Evento.objects.create(título=título,
-                              data_evento=data_evento,
-                              local=local,
-                              descrição=descrição,
-                              usuário=usuário)
+        id_evento = request.POST.get('id_evento')
+        if id_evento:
+            evento = Evento.objects.get(id=id_evento)
+            if evento.usuário == usuário:
+                evento.título = título
+                evento.descrição = descrição
+                evento.data_evento = data_evento
+                evento.local = local
+                evento.save()
+            # Evento.objects.filter(id=id_evento).update(título=título,
+            #                                            data_evento=data_evento,
+            #                                            local=local,
+            #                                            descrição=descrição)
+        else:
+            Evento.objects.create(título=título,
+                                  data_evento=data_evento,
+                                  local=local,
+                                  descrição=descrição,
+                                  usuário=usuário)
+    return redirect('/')
+
+@login_required(login_url='/login/')
+def delete_evento(request, id_evento):
+    usuário = request.user
+    evento = Evento.objects.get(id=id_evento)
+    if usuário == evento.usuário:
+        evento.delete()
     return redirect('/')
